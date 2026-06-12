@@ -14,7 +14,7 @@ services:
         value: 5001
 
   # Oracle Frontend
-  - type: static
+  - type: web
     name: oracle-web-ui
     env: static
     plan: free
