@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 const DATA_PATH = path.join(__dirname, 'knowledge.json');
 
-app.use(cors());
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use(express.json({ limit: '10mb' }));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -61,9 +61,12 @@ app.post('/api/chat', async (req, res) => {
         const result = await model.generateContent(prompt);
         const response = result.response.text();
         res.json({ text: response });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
     }
+});
+
+// Serve frontend FOR ALL OTHER ROUTES
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 app.listen(PORT, () => {
