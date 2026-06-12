@@ -1,0 +1,26 @@
+services:
+  # Oracle Backend
+  - type: web
+    name: oracle-web-api
+    env: node
+    plan: free
+    rootDir: oracle-web/backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PORT
+        value: 5001
+
+  # Oracle Frontend
+  - type: static
+    name: oracle-web-ui
+    env: static
+    plan: free
+    rootDir: oracle-web/frontend
+    buildCommand: npm install && npm run build
+    staticPublishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://oracle-web-api.onrender.com/api # Replace with actual backend URL
