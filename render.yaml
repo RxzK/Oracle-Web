@@ -4,7 +4,8 @@ services:
     name: oracle-web-system
     env: node
     plan: free
-    rootDir: oracle-web
+    # Root directory is the repo root
+    rootDir: .
     buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
