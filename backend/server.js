@@ -61,6 +61,8 @@ app.post('/api/chat', async (req, res) => {
         const result = await model.generateContent(prompt);
         const response = result.response.text();
         res.json({ text: response });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
