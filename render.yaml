@@ -14,7 +14,7 @@ services:
         value: 5001
 
   # Oracle Frontend
-  - type: web
+  - type: static
     name: oracle-web-ui
     env: static
     plan: free
@@ -23,4 +23,4 @@ services:
     staticPublishDir: dist
     envVars:
       - key: VITE_API_URL
-        value: https://oracle-web-api.onrender.com/api # Replace with actual backend URL
+        value: https://oracle-web-api.onrender.com/api
