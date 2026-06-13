@@ -66,6 +66,10 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 // Serve frontend FOR ALL OTHER ROUTES
 app.get('*', (req, res) => {
     const indexPath = path.join(__dirname, '../frontend/dist/index.html');
@@ -76,6 +80,6 @@ app.get('*', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Oracle Web Backend running on port ${PORT}`);
 });
