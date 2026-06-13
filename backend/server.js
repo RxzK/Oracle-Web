@@ -9,14 +9,36 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 const DATA_PATH = path.join(__dirname, 'knowledge.json');
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use(express.json({ limit: '10mb' }));
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+console.log('Starting Oracle Web Backend...');
+
+const API_KEY = process.env.GEMINI_API_KEY;
+if (!API_KEY) {
+    console.error('FATAL ERROR: GEMINI_API_KEY is not defined in environment variables.');
+    process.exit(1);
+}
+
+let genAI;
+try {
+    genAI = new GoogleGenerativeAI(API_KEY);
+    console.log('Gemini AI client initialized.');
+} catch (error) {
+    console.error('FATAL ERROR: Failed to initialize GoogleGenerativeAI:', error.message);
+    process.exit(1);
+}
 
 // Initialize knowledge file
-if (!fs.existsSync(DATA_PATH)) {
-    fs.writeFileSync(DATA_PATH, JSON.stringify([], null, 2));
+try {
+    if (!fs.existsSync(DATA_PATH)) {
+        console.log('knowledge.json not found, creating new one...');
+        fs.writeFileSync(DATA_PATH, JSON.stringify([], null, 2));
+    }
+} catch (error) {
+    console.error('FATAL ERROR: Failed to initialize knowledge.json:', error.message);
+    process.exit(1);
 }
 
 app.post('/api/sync', (req, res) => {
