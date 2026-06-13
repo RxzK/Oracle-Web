@@ -67,8 +67,13 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Serve frontend FOR ALL OTHER ROUTES
-app.get('(.*)', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+app.get('*', (req, res) => {
+    const indexPath = path.join(__dirname, '../frontend/dist/index.html');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.status(404).send('Frontend build not found. Please run "npm run build" in the frontend directory.');
+    }
 });
 
 app.listen(PORT, () => {
