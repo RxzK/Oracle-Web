@@ -92,8 +92,8 @@ app.get('/health', (req, res) => {
     res.status(200).send('OK');
 });
 
-// Serve frontend FOR ALL OTHER ROUTES
-app.get('*', (req, res) => {
+// Serve frontend FOR ALL OTHER ROUTES (Express 5 requires named wildcard)
+app.get('/*path', (req, res) => {
     const indexPath = path.join(__dirname, '../frontend/dist/index.html');
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
