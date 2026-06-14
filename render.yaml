@@ -6,7 +6,7 @@ services:
     plan: free
     # Root directory is the repo root
     rootDir: .
-    buildCommand: npm install && npm run build
+    buildCommand: cd backend && npm install
     startCommand: npm start
     healthCheckPath: /health
     envVars:
