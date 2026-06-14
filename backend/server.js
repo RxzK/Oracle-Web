@@ -97,12 +97,17 @@ app.get('/health', (req, res) => {
 });
 
 // Serve frontend FOR ALL OTHER ROUTES (Express 5 requires named wildcard)
+app.get('/', (req, res) => {
+    res.status(200).send('Oracle API Online. Frontend is hosted on Vercel.');
+});
+
 app.get('/*path', (req, res) => {
     const indexPath = path.join(__dirname, '../frontend/dist/index.html');
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
     } else {
-        res.status(404).send('Frontend build not found. Please run "npm run build" in the frontend directory.');
+        // Since we are separated, redirect to Vercel as a fallback or return status
+        res.status(200).send('Oracle API Active. Please visit the frontend at https://frontend-rxzks-projects.vercel.app');
     }
 });
 
