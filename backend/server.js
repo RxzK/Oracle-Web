@@ -9,7 +9,11 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 const DATA_PATH = path.join(__dirname, 'knowledge.json');
 
-app.use(cors());
+app.use(cors({
+    origin: '*', // For production, replace with specific Vercel URL later
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use(express.json({ limit: '10mb' }));
 
